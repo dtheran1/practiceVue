@@ -10,6 +10,15 @@ const app = Vue.createApp({
       favorites: new Map(),
     };
   },
+  created() {
+    const savedFavorites = JSON.parse(window.localStorage.getItem("favorites"));
+    if (savedFavorites) {
+      const favorites = new Map(
+        savedFavorites.map((favorite) => [favorite.id, favorite])
+        );
+        this.favorites = favorites
+    }
+  },
   computed: {
     isFavorite() {
       return this.favorites.has(this.result.id);
@@ -36,9 +45,18 @@ const app = Vue.createApp({
     },
     addFavorite() {
       this.favorites.set(this.result.id, this.result);
+      this.updateStorage();
     },
     removeFavorite() {
       this.favorites.delete(this.result.id);
+      this.updateStorage();
+    },
+
+    updateStorage() {
+      window.localStorage.setItem(
+        "favorites",
+        JSON.stringify(this.allFavorites)
+      );
     },
   },
 });
