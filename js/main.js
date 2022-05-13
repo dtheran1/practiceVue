@@ -15,8 +15,8 @@ const app = Vue.createApp({
     if (savedFavorites) {
       const favorites = new Map(
         savedFavorites.map((favorite) => [favorite.id, favorite])
-        );
-        this.favorites = favorites
+      );
+      this.favorites = favorites;
     }
   },
   computed: {
@@ -51,7 +51,9 @@ const app = Vue.createApp({
       this.favorites.delete(this.result.id);
       this.updateStorage();
     },
-
+    showFavorite(favorite) {
+      this.result = favorite;
+    },
     updateStorage() {
       window.localStorage.setItem(
         "favorites",
